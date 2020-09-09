@@ -1,40 +1,53 @@
 package com.arnab.springbootTwitterDesignv1.springboottwitterdesignv1.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
+import javax.persistence.*;
 import java.util.Date;
+import java.util.Objects;
 
 
 @Entity
-@Table(name="tweets")
+@Table(name = "tweets")
 public class Tweets {
 
-    private Long user_ID;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tweet_ID;
+
+    private Long user_ID;
     private String tweet_title;
     private String tweet_body;
+    private Double lat;
+    private Double lon;
     private String upvote_count;
     private String downvote_count;
     private Long created_by;
     private Date created_at;
     private Long edited_by;
     private Date edited_at;
-    private boolean active_status;
+    private Boolean active_status;
+    private Boolean draft_status;
+
+    @ManyToOne
+    private Users users;
 
     public Tweets() {
 
     }
 
     public Tweets(Long user_ID, Long tweet_ID, String tweet_title,
-                  String tweet_body, String upvote_count,
+                  String tweet_body, Double lat, Double lon, String upvote_count,
                   String downvote_count, Long created_by,
                   Date created_at, Long edited_by, Date edited_at,
-                  boolean active_status) {
+                  Boolean active_status, Boolean draft_status) {
         super();
         this.user_ID = user_ID;
         this.tweet_ID = tweet_ID;
         this.tweet_title = tweet_title;
         this.tweet_body = tweet_body;
+        this.lat = lat;
+        this.lon = lon;
         this.upvote_count = upvote_count;
         this.downvote_count = downvote_count;
         this.created_by = created_by;
@@ -42,6 +55,7 @@ public class Tweets {
         this.edited_by = edited_by;
         this.edited_at = edited_at;
         this.active_status = active_status;
+        this.draft_status = draft_status;
     }
 
     public Long getUser_ID() {
@@ -74,6 +88,22 @@ public class Tweets {
 
     public void setTweet_body(String tweet_body) {
         this.tweet_body = tweet_body;
+    }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
     }
 
     public String getUpvote_count() {
@@ -124,11 +154,32 @@ public class Tweets {
         this.edited_at = edited_at;
     }
 
-    public boolean isActive_status() {
+    public Boolean getActive_status() {
         return active_status;
     }
 
-    public void setActive_status(boolean active_status) {
+    public void setActive_status(Boolean active_status) {
         this.active_status = active_status;
+    }
+
+    public Boolean getDraft_status() {
+        return draft_status;
+    }
+
+    public void setDraft_status(Boolean draft_status) {
+        this.draft_status = draft_status;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Tweets)) return false;
+        Tweets tweets = (Tweets) o;
+        return tweet_ID.equals(tweets.tweet_ID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(tweet_ID);
     }
 }

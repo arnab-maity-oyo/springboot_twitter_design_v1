@@ -1,5 +1,7 @@
 package com.arnab.springbootTwitterDesignv1.springboottwitterdesignv1.model;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -18,14 +20,16 @@ public class Users {
     private String last_name;
     private String password;
     private String email;
+    private Double lat;
+    private Double lon;
     private Long created_by;
     private Date created_at;
     private Long edited_by;
     private Date edited_at;
-    private boolean active_status;
+    private Boolean active_status;
 
-    @OneToMany
-    @JoinColumn(name="user_ID", referencedColumnName = "user_ID")
+    @OneToMany(mappedBy = "users")
+//    @JoinColumn(name="user_ID", referencedColumnName = "user_ID")
     List<Tweets> tweetsList = new ArrayList<>();
 
     public Users() {
@@ -33,21 +37,25 @@ public class Users {
     }
 
     public Users(Long user_ID, String first_name, String last_name,
-                 String password, String email, Long created_by,
+                 String password, String email, Double lat, Double lon, Long created_by,
                  Date created_at, Long edited_by, Date edited_at,
-                 boolean active_status) {
+                 Boolean active_status) {
         super();
         this.user_ID = user_ID;
         this.first_name = first_name;
         this.last_name = last_name;
         this.password = password;
         this.email = email;
+        this.lat = lat;
+        this.lon = lon;
         this.created_by = created_by;
         this.created_at = created_at;
         this.edited_by = edited_by;
         this.edited_at = edited_at;
         this.active_status = active_status;
     }
+
+
 
     public Long getUser_ID() {
         return user_ID;
@@ -89,6 +97,22 @@ public class Users {
         this.email = email;
     }
 
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
     public Long getCreated_by() {
         return created_by;
     }
@@ -121,11 +145,11 @@ public class Users {
         this.edited_at = edited_at;
     }
 
-    public boolean isActive_status() {
+    public Boolean isActive_status() {
         return active_status;
     }
 
-    public void setActive_status(boolean active_status) {
+    public void setActive_status(Boolean active_status) {
         this.active_status = active_status;
     }
 
